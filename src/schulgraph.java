@@ -89,41 +89,75 @@ public class schulgraph {
         schulgraph.addEdge(new Edge(Cafeteria,WC, 22));
         schulgraph.addEdge(new Edge(Cafeteria,Aula, 7));
         schulgraph.addEdge(new Edge(Cafeteria,Kunstraum, 90));
-        Breitensuche();
-        List();
+       // Breitensuche();
+       List();
+          //  aufgabe();
 
     }
     public List Breitensuche(){
         Queue breitensuche = new Queue<>();
-
         Ergebnissliste.toFirst();
-        breitensuche.enqueue(schulgraph.getVertex("Informatikraum"));
+        while (Ergebnissliste.hasAccess()){
+            Ergebnissliste.toFirst();
+            Ergebnissliste.remove();
+        }
+      //  System.out.print("W");
+        Ergebnissliste.toFirst();
+
+        breitensuche.enqueue(schulgraph.getVertex("Inforaum"));
+        schulgraph.getVertex("Inforaum").setMark(true);
+
         while (!breitensuche.isEmpty()){
+
             Vertex aktuelleNode = (Vertex)breitensuche.front();
-            breitensuche.dequeue();
             Ergebnissliste.append(aktuelleNode);
+            breitensuche.dequeue();
             List<Vertex> neighbours = schulgraph.getNeighbours(aktuelleNode);
             neighbours.toFirst();
+          //  System.out.print(Ergebnissliste.getContent().getID());
+
            while ( neighbours.hasAccess()){
                if(!neighbours.getContent().isMarked()){
+                  // System.out.print("q");
+                  // System.out.println(neighbours.getContent().getID());
                    breitensuche.enqueue(neighbours.getContent());
                    neighbours.getContent().setMark(true);
-                   neighbours.next();
+
                }
+               neighbours.next();
            }
         }
         return Ergebnissliste;
+
     }
-    public List List(){
-        Breitensuche();
+
+    public void aufgabe(){
+       List <Vertex> E = new List<>();
+       E = Breitensuche();
+       E.toFirst();
+       while (E.hasAccess()) {
+           System.out.println("+"+ E.getContent().getID());
+           E.next();
+       }
+    }
+    public void List(){
+
+        Ergebnissliste = Breitensuche();
         Ergebnissliste.toFirst();
-        while (Ergebnisslist.hasAccess()){
-            System.out.print(Ergebnissliste.getContent());
-            List<Vertex> neighbours = schulgraph.getNeighbours(Ergebnissliste.getContent());
+        while (Ergebnissliste.hasAccess()){
+            System.out.print(Ergebnissliste.getContent().getID());
+            List<Vertex> neighbours = new List<>();
+
+                  neighbours =schulgraph.getNeighbours(Ergebnissliste.getContent());
+                neighbours.toFirst();
             while(neighbours.hasAccess()){
-                system.out.print(neihbours.getContent());
+                System.out.print(" ");
+                System.out.print(schulgraph.getEdge(Ergebnissliste.getContent(), neighbours.getContent()).getWeight());
+                System.out.print(neighbours.getContent().getID());
                 neighbours.next();
             }
+            neighbours.remove();
+            Ergebnissliste.next();
             System.out.println(" ");
         }
     }
