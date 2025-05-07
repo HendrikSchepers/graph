@@ -1,13 +1,16 @@
 import untils.*;
 public class schulgraph {
     Graph schulgraph = new Graph();
-    List <Vertex> Ergebnissliste = new List<>();
+    List<Vertex> Ergebnissliste = new List<>();
+    List<Vertex> Ergebnisslistetf = new List<>();
+    List<Vertex> neighbourstf = new List<>();
+
     public static void main(String[] args) {
         System.out.println("Hello world!");
-            new schulgraph();
+        new schulgraph();
     }
 
-        public schulgraph () {
+    public schulgraph() {
 
         Vertex Informatikraum = new Vertex( "Inforaum");
         schulgraph.addVertex(Informatikraum);
@@ -90,8 +93,8 @@ public class schulgraph {
         schulgraph.addEdge(new Edge(Cafeteria,Aula, 7));
         schulgraph.addEdge(new Edge(Cafeteria,Kunstraum, 90));
        // Breitensuche();
-       List();
-          //  aufgabe();
+       // List();
+            aufgabe();
 
     }
     public List Breitensuche(){
@@ -133,7 +136,7 @@ public class schulgraph {
 
     public void aufgabe(){
        List <Vertex> E = new List<>();
-       E = Breitensuche();
+       E = Tiefensuchev();
        E.toFirst();
        while (E.hasAccess()) {
            System.out.println("+"+ E.getContent().getID());
@@ -156,9 +159,53 @@ public class schulgraph {
                 System.out.print(neighbours.getContent().getID());
                 neighbours.next();
             }
-            neighbours.remove();
+            //neighbours.remove();
             Ergebnissliste.next();
             System.out.println(" ");
         }
     }
+
+
+        public int zahlen() {
+        Ergebnissliste = Breitensuche();
+        int i = 0;
+        Ergebnissliste.toFirst();
+        while (Ergebnissliste.hasAccess()){
+            i++;
+            Ergebnissliste.next();
+        }
+        return i;
+        }
+
+        public List Tiefensuchev()
+        {
+            Ergebnisslistetf.toFirst();
+            while (Ergebnisslistetf.hasAccess()){
+                Ergebnisslistetf.remove();
+            }
+            Ergebnisslistetf.toFirst();
+            Tiefensuche(schulgraph.getVertex("Inforaum"));
+            return Ergebnisslistetf;
+        }
+        public List Tiefensuche(Vertex pStart){
+
+        if (!pStart.isMarked()) {
+            Ergebnisslistetf.append(pStart);
+
+            neighbourstf = schulgraph.getNeighbours(pStart);
+            neighbourstf.toFirst();
+            pStart.setMark(true);
+            Tiefensuche(neighbourstf.getContent());
+        }
+        while(neighbourstf.hasAccess()) {
+            neighbourstf.next();
+            if(!neighbourstf.getContent().isMarked()){
+                Ergebnisslistetf.append(pStart);
+                neighbourstf = schulgraph.getNeighbours(pStart);
+                neighbourstf.toFirst();
+
+            }
+        }
+            return Ergebnisslistetf;
+        }
 }
