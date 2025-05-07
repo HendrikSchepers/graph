@@ -95,6 +95,7 @@ public class schulgraph {
        // Breitensuche();
        // List();
             aufgabe();
+          //  zahlen();
 
     }
     public List Breitensuche(){
@@ -172,6 +173,7 @@ public class schulgraph {
         Ergebnissliste.toFirst();
         while (Ergebnissliste.hasAccess()){
             i++;
+            System.out.println(Ergebnissliste.getContent().getID() + i);
             Ergebnissliste.next();
         }
         return i;
@@ -184,28 +186,38 @@ public class schulgraph {
                 Ergebnisslistetf.remove();
             }
             Ergebnisslistetf.toFirst();
+            System.out.println("q");
+            demark();
             Tiefensuche(schulgraph.getVertex("Inforaum"));
             return Ergebnisslistetf;
         }
         public List Tiefensuche(Vertex pStart){
+            System.out.println("d");
 
         if (!pStart.isMarked()) {
             Ergebnisslistetf.append(pStart);
-
+            System.out.println("i");
             neighbourstf = schulgraph.getNeighbours(pStart);
             neighbourstf.toFirst();
             pStart.setMark(true);
             Tiefensuche(neighbourstf.getContent());
         }
+            neighbourstf = schulgraph.getNeighbours(pStart);
+            neighbourstf.toFirst();
         while(neighbourstf.hasAccess()) {
-            neighbourstf.next();
+            System.out.println("r");
             if(!neighbourstf.getContent().isMarked()){
-                Ergebnisslistetf.append(pStart);
-                neighbourstf = schulgraph.getNeighbours(pStart);
-                neighbourstf.toFirst();
-
+                System.out.println("w");
+                Tiefensuche(neighbourstf.getContent());
             }
+            neighbourstf.next();
         }
             return Ergebnisslistetf;
+        }
+        public void demark(){
+        while (Ergebnissliste.hasAccess()){
+            Ergebnissliste.getContent().setMark(false);
+            Ergebnissliste.next();
+        }
         }
 }
